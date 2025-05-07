@@ -70,7 +70,8 @@ public class HeroServiceImpl implements HeroService{
         heroDTO.setId(returnedHero.getId());
         heroDTO.setName(returnedHero.getName());
         heroDTO.setRace(race.getRaceName());
-        heroDTO.setPowerLevel(returnedHero.getPowerLevel());
+        Long pL = returnedHero.getPowerLevel()*transformation.getMultiplier();
+        heroDTO.setPowerLevel(pL);
         heroDTO.setForm(transformation.getFormName());
         heroDTO.setAttack(attack.getAttackName());
 
