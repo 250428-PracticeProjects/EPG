@@ -13,7 +13,7 @@ public class Hero {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "hero_id")
     private long id;
 
     @Column(name = "hero_name")
@@ -31,7 +31,7 @@ public class Hero {
     private Transformation form;
 
     @ManyToOne
-    @JoinColumn(name = "technique")
+    @JoinColumn(name = "hero_attack")
     private Attack attack;
 
     public Hero() {

@@ -9,11 +9,13 @@ import com.fighterz.repository.AttackRepository;
 import com.fighterz.repository.HeroRepository;
 import com.fighterz.repository.RaceRepository;
 import com.fighterz.repository.TransformationRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class HeroServiceImpl implements HeroService{
     private final HeroRepository heroRepository;
     private final AttackRepository attackRepository;
@@ -43,7 +45,8 @@ public class HeroServiceImpl implements HeroService{
             heroDTO.setId(hero.getId());
             heroDTO.setName(hero.getName());
             heroDTO.setRace(race.getRaceName());
-            heroDTO.setPowerLevel(hero.getPowerLevel());
+            Long pL = hero.getPowerLevel()*transformation.getMultiplier();
+            heroDTO.setPowerLevel(pL);
             heroDTO.setForm(transformation.getFormName());
             heroDTO.setAttack(attack.getAttackName());
 
@@ -54,12 +57,64 @@ public class HeroServiceImpl implements HeroService{
 
     @Override
     public HeroDTO getHeroById(Long id) {
-        return null;
+        Optional<Hero> optionalHero = heroRepository.findById(id);
+        Hero returnedHero = optionalHero.get();
+        Optional<Race> optionalRace = raceRepository.findById(returnedHero.getRace().getRaceId());
+        Optional<Transformation> optionalTransformation = transformationRepository.findById(returnedHero.getForm().getFormId());
+        Optional<Attack> optionalAttack = attackRepository.findById(returnedHero.getAttack().getAttackId());
+        Race race = optionalRace.get();
+        Transformation transformation = optionalTransformation.get();
+        Attack attack = optionalAttack.get();
+
+        HeroDTO heroDTO = new HeroDTO();
+        heroDTO.setId(returnedHero.getId());
+        heroDTO.setName(returnedHero.getName());
+        heroDTO.setRace(race.getRaceName());
+        heroDTO.setPowerLevel(returnedHero.getPowerLevel());
+        heroDTO.setForm(transformation.getFormName());
+        heroDTO.setAttack(attack.getAttackName());
+
+        return heroDTO;
     }
 
     @Override
-    public HeroDTO transformHero(Long heroId, Long formId) {
-        return null;
+    public HeroDTO transformHero(Long heroId) {
+        Optional<Hero> optionalHero = heroRepository.findById(heroId);
+        Hero returnedHero = optionalHero.get();
+        Transformation newForm = new Transformation();
+        Long newId = 0L;
+        if(returnedHero.getForm().getFormId() == 1){
+            switch ((int) returnedHero.getRace().getRaceId()){
+                case 1:
+                    newId = 2L;
+                    break;
+                case 2:
+                    newId = 3L;
+                    break;
+                case 3:
+                    newId = 4L;
+                    break;
+                default:
+                    System.out.println("Not a valid race");
+            }
+        }
+        else{
+            newId = 1L;
+        }
+        Optional<Transformation> optionalTransformation = transformationRepository.findById(newId);
+        newForm = optionalTransformation.get();
+        returnedHero.setForm(newForm);
+        Hero transformedHero = heroRepository.save(returnedHero);
+
+        HeroDTO displayHero = new HeroDTO();
+        displayHero.setAttack(transformedHero.getAttack().getAttackName());
+        displayHero.setForm(transformedHero.getForm().getFormName());
+        displayHero.setId(transformedHero.getId());
+        displayHero.setName(transformedHero.getName());
+        displayHero.setPowerLevel(transformedHero.getPowerLevel());
+        displayHero.setRace(transformedHero.getRace().getRaceName());
+
+        return displayHero;
     }
 
     @Override
