@@ -112,7 +112,8 @@ public class HeroServiceImpl implements HeroService{
         displayHero.setForm(transformedHero.getForm().getFormName());
         displayHero.setId(transformedHero.getId());
         displayHero.setName(transformedHero.getName());
-        displayHero.setPowerLevel(transformedHero.getPowerLevel());
+        Long pL = transformedHero.getPowerLevel()*newForm.getMultiplier();
+        displayHero.setPowerLevel(pL);
         displayHero.setRace(transformedHero.getRace().getRaceName());
 
         return displayHero;
