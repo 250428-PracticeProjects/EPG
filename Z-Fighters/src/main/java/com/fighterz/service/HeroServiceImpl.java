@@ -120,7 +120,20 @@ public class HeroServiceImpl implements HeroService{
     }
 
     @Override
-    public boolean createHero(HeroDTO newHero) {
-        return false;
+    public Hero createHero(HeroDTO newHero) {
+        Hero hero = new Hero();
+        hero.setName(newHero.getName());
+        Race race = raceRepository.findByRaceName(newHero.getRace());
+        hero.setRace(race);
+        hero.setPowerLevel(newHero.getPowerLevel());
+        Attack attack = attackRepository.findByAttackName(newHero.getAttack());
+        hero.setAttack(attack);
+        if (hero.getForm() == null) {
+            Transformation defaultForm = transformationRepository.findById(1L)
+                .orElseThrow(() -> new RuntimeException("Default form not found"));
+            hero.setForm(defaultForm);
+        }
+
+        return heroRepository.save(hero);
     }
 }

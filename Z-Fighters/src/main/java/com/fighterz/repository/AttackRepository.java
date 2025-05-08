@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AttackRepository extends JpaRepository<Attack, Long> {
+    Attack findByAttackName(String attack);
 }

@@ -1,6 +1,7 @@
 package com.fighterz.controller;
 
 
+import com.fighterz.dto.HeroDTO;
 import com.fighterz.service.HeroServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,5 +32,11 @@ public class HeroController {
     @PutMapping("/{id}/transform")
     public ResponseEntity<?> transformHero(@PathVariable Long id) {
         return ResponseEntity.ok(heroService.transformHero(id));
+    }
+
+    // Endpoint to create a new hero
+    @PostMapping("/create")
+    public ResponseEntity<?> createHero(@RequestBody HeroDTO newHero) {
+        return ResponseEntity.ok(heroService.createHero(newHero));
     }
 }

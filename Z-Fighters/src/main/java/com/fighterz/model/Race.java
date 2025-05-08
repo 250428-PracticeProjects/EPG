@@ -1,12 +1,13 @@
 package com.fighterz.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.util.List;
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "raceId")
 @Entity
 @Table(name = "race")
 public class Race {
@@ -19,6 +20,7 @@ public class Race {
     private String raceName;
 
     @OneToMany(mappedBy = "race", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Hero> heroes;
 
     public Race() {

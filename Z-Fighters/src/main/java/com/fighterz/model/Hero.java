@@ -2,6 +2,7 @@ package com.fighterz.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
@@ -20,6 +21,7 @@ public class Hero {
     private String name;
 
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "hero_race")
     private Race race;
 
@@ -27,10 +29,12 @@ public class Hero {
     private long powerLevel;
 
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "form")
     private Transformation form;
 
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "hero_attack")
     private Attack attack;
 

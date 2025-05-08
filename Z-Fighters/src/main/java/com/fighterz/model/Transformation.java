@@ -1,12 +1,13 @@
 package com.fighterz.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.util.List;
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "formId")
 @Entity
 @Table(name = "transformation")
 public class Transformation {
@@ -22,6 +23,7 @@ public class Transformation {
     private long multiplier;
 
     @OneToMany(mappedBy = "form")
+    @JsonBackReference
     private List<Hero> heroes;
 
     public Transformation() {
