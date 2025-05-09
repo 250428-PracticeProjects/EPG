@@ -39,4 +39,10 @@ public class HeroController {
     public ResponseEntity<?> createHero(@RequestBody HeroDTO newHero) {
         return ResponseEntity.ok(heroService.createHero(newHero));
     }
+
+    // Endpoint to change a hero's attack
+    @PutMapping("/{id}/change-attack")
+    public ResponseEntity<?> changeHeroAttack(@PathVariable Long id) {
+        return ResponseEntity.ok(heroService.changeHeroAttack(id));
+    }
 }

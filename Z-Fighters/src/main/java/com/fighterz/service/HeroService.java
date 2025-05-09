@@ -10,4 +10,5 @@ public interface HeroService {
     HeroDTO getHeroById(Long id);
     HeroDTO transformHero(Long heroId);
     Hero createHero(HeroDTO newHero);
+    HeroDTO changeHeroAttack(Long heroId);
 }

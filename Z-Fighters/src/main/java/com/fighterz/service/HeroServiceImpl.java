@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class HeroServiceImpl implements HeroService{
@@ -136,4 +137,26 @@ public class HeroServiceImpl implements HeroService{
 
         return heroRepository.save(hero);
     }
+
+    @Override
+    public HeroDTO changeHeroAttack(Long heroId) {
+        Optional<Hero> optionalHero = heroRepository.findById(heroId);
+        Hero returnedHero = optionalHero.get();
+        Attack newAttack = new Attack();
+        Long newAttackId = (long) (new Random().nextInt(7) + 1);
+        Optional<Attack> optionalAttack = attackRepository.findById(newAttackId);
+        newAttack = optionalAttack.get();
+        returnedHero.setAttack(newAttack);
+        Hero changedHero = heroRepository.save(returnedHero);
+        HeroDTO displayHero = new HeroDTO();
+        displayHero.setAttack(changedHero.getAttack().getAttackName());
+        displayHero.setForm(changedHero.getForm().getFormName());
+        displayHero.setId(changedHero.getId());
+        displayHero.setName(changedHero.getName());
+        Long pL = changedHero.getPowerLevel()*changedHero.getForm().getMultiplier();
+        displayHero.setPowerLevel(pL);
+        displayHero.setRace(changedHero.getRace().getRaceName());
+        return displayHero;
+    }
+
 }
